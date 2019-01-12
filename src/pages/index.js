@@ -1,21 +1,21 @@
-import React from 'react'
-import { Link } from 'gatsby'
+/*
+ * @flow strict-local
+ */
+require("bootstrap/dist/css/bootstrap.min.css");
+const styles = require("../style/index.module.css");
+const React = require("react");
+const CustomNavbar = require("../components/navbar/navbar.react");
 
-import Layout from '../components/layout'
-import Image from '../components/image'
-import SEO from '../components/seo'
+type Props = {};
 
-const IndexPage = () => (
-  <Layout>
-    <SEO title="Home" keywords={[`gatsby`, `application`, `react`]} />
-    <h1>Hi people</h1>
-    <p>Welcome to your new Gatsby site.</p>
-    <p>Now go build something great.</p>
-    <div style={{ maxWidth: `300px`, marginBottom: `1.45rem` }}>
-      <Image />
-    </div>
-    <Link to="/page-2/">Go to page 2</Link>
-  </Layout>
-)
+class Index extends React.Component<Props> {
+  render(): React.Node {
+    return (
+      <div>
+        <CustomNavbar />
+      </div>
+    );
+  }
+}
 
-export default IndexPage
+export default Index;

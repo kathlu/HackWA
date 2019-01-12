@@ -1,0 +1,57 @@
+@import url("https://fonts.googleapis.com/css?family=Poppins:100,300,400,600,700");
+
+.buttonCustom {
+  font-size: 16;
+  font-weight: 600;
+  width: 125px;
+  height: 40px;
+}
+
+.buttonTransparent:hover {
+  background-color: transparent;
+}
+
+.content {
+  z-index: 2;
+}
+
+@media (min-width: 992px) {
+  .vertCustom {
+  }
+}
+
+.courtContainer {
+  position: relative;
+}
+
+.courtOverlay {
+  min-height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.6) 0%,
+      rgba(255, 255, 255, 0) 51.38%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0) 12.15%,
+      rgba(54, 55, 54, 0.58) 35.36%,
+      rgba(20, 21, 12, 0.98) 97.79%
+    );
+}
+
+@media (max-width: 576px) {
+  nav {
+    background-color: rgba(229, 230, 246, 0.96);
+  }
+}
+
+html,
+body {
+  font-family: "Poppins", sans-serif !important;
+}
