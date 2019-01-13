@@ -81,7 +81,7 @@ class CustomNavbar extends React.Component<Props, State> {
               textDecoration: "none"
             }}
           >
-            Husky Tennis Club
+            Hack WA
           </Link>
         </NavbarBrand>
         <NavbarToggler
@@ -90,11 +90,9 @@ class CustomNavbar extends React.Component<Props, State> {
         />
         <Collapse isOpen={this.state.isOpen} navbar>
           <Nav className="ml-auto" navbar>
-            <CustomNavItem selected={this.props.selected} siteTab="goals" />
-            <CustomNavItem selected={this.props.selected} siteTab="blog" />
-            <CustomNavItem selected={this.props.selected} siteTab="events" />
-            <CustomNavItem selected={this.props.selected} siteTab="contact" />
             <CustomNavItem selected={this.props.selected} siteTab="register" />
+            <CustomNavItem selected={this.props.selected} siteTab="profile" />
+            <CustomNavItem selected={this.props.selected} siteTab="contact" />
           </Nav>
         </Collapse>
       </Navbar>
