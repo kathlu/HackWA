@@ -4,12 +4,11 @@
 require("bootstrap/dist/css/bootstrap.min.css");
 const React = require("react");
 const CustomNavbar = require("../components/navbar/navbar.react");
-const OrganizationContainer = require("../components/profile/OrganizationContainer.react");
-const AccountDetailContainer = require("../components/profile/AccountDetailContainer.react");
+const AddOrg = require("../components/addorg.react");
 
 type Props = {};
 
-class Profile extends React.Component<Props> {
+class Index extends React.Component<Props> {
   render(): React.Node {
     return (
       <div>
@@ -22,16 +21,13 @@ class Profile extends React.Component<Props> {
               fontWeight: 700
             }}
           >
-            User Profile
+            Join an Organization
           </div>
-          <OrganizationContainer />
-          <div style={{ height: 80 }} />
-          <AccountDetailContainer />
-          <div style={{ height: 80 }} />
         </div>
+        <AddOrg />
       </div>
     );
   }
 }
 
-export default Profile;
+export default Index;

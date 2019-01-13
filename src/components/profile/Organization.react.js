@@ -3,6 +3,7 @@
  */
 const React = require("react");
 const GenericButton = require("../GenericButton.react");
+const { navigate } = require("gatsby");
 
 type Props = { 
   onClickGenerator: (id: string) => () => void,
@@ -41,8 +42,16 @@ class Organization extends React.Component<Props> {
         </div>
         <div style={{ paddingTop: 20 }}>
           {orgs}
-          <div style={{ marginTop: 30 }} className="text-center">
-            <GenericButton width={200}>Add Organization</GenericButton>
+          <div className="text-center">
+
+            <button
+                  type="submit"
+                  className="btn btn-primary"
+                  style = {{marginTop: 2 + 'rem'}}
+                  onClick={evt => navigate('/neworg')}
+                >
+                  Add Organization
+                </button>
           </div>
         </div>
       </div>
