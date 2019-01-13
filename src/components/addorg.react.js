@@ -70,73 +70,46 @@ class SignInView extends React.Component<Props, State> {
           <div className="container">
             <form className="center" onSubmit={evt => this.handleSubmit(evt)}>
             <div className="form-group">
-                <label htmlFor="name">Name</label>
-                <input
-                  type="name"
-                  id="name"
-                  className="form-control"
-                  placeholder="your name"
-                  value={this.state.name}
-                  style={{ maxWidth: 600 }}
-                  onInput={evt => this.setState({ name: evt.target.value })}
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="email">Email Address</label>
-                <input
-                  type="email"
-                  id="email"
-                  className="form-control"
-                  placeholder="your email address"
-                  value={this.state.email}
-                  style={{ maxWidth: 600 }}
-                  onInput={evt => this.setState({ email: evt.target.value })}
-                />
-              </div>
-              <label htmlFor="year">Year in School</label>
+              <label htmlFor="year">Select an Organization:</label>
               <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
               <DropdownToggle caret>{this.state.value}
               </DropdownToggle>
               <DropdownMenu>
-                  <DropdownItem onClick={this.select}>Freshman</DropdownItem>
-                  <DropdownItem onClick={this.select}>Sophomore</DropdownItem>
-                  <DropdownItem onClick={this.select}>Junior</DropdownItem>
-                  <DropdownItem onClick={this.select}>Senior</DropdownItem>
-                  
+                  <DropdownItem onClick={this.select}>Chinese Student Association</DropdownItem>
+                  <DropdownItem onClick={this.select}>Japanese Student Association</DropdownItem>
+                  <DropdownItem onClick={this.select}>Thai Student Association</DropdownItem>
             </DropdownMenu> 
             </Dropdown>
 
+            </div>
 
 
 
-              <div className="form-group">
-                <label htmlFor="password">Password</label>
-                <input
-                  type="password"
-                  id="password"
-                  className="form-control"
-                  minLength="6"
-                  placeholder="your password"
-                  value={this.state.password}
-                  style={{ maxWidth: 600 }}
-                  onInput={evt => this.setState({ password: evt.target.value })}
-                />
+            <div class="card" style = {{width: 50 + '%'}}>
+              <div class="card-body">
+                <h4 class="card-title" style = {{marginTop: 2 + 'rem'}}>{this.state.value}</h4>
+                <h4 class="card-text" style = {{marginTop: 5 + 'rem'}}>Jane Doe</h4>
+                <p class="card-text text-muted" style = {{marginBottom: 1 + 'rem'}}>Valid thru 06/20</p>
               </div>
-
-              <div className="form-group">
+            </div>
+            
+            
+            
+            
+            <div className="form-group">
+            
                 <button
                   type="submit"
                   className="btn btn-primary"
-                  onSubmit={evt => this.handleSubmit(evt)}
+                  style = {{marginTop: 5 + 'rem'}}
+                  onClick={evt => navigate('/profile')}
                 >
-                  Register
+                  Add Organization
                 </button>
-              </div>
+            </div>
+            
             </form>
-            <p>Already have an account?</p>
-            <GenericButton siteTab="" color="rgba(70, 78, 255)">
-              Log In
-            </GenericButton>
+            
           </div>
         </main>
       </div>
