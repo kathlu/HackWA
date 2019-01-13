@@ -85,7 +85,7 @@ class SignInView extends React.Component<Props, State> {
               </div>
             </form>
             <p>Don't have an account yet?</p>
-            <GenericButton siteTab="" color="rgba(70, 78, 255)">
+            <GenericButton siteTab = "clubreg" color="rgba(70, 78, 255)">
               Sign Up!
             </GenericButton>
           </div>
