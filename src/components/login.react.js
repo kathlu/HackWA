@@ -2,8 +2,12 @@
  * @flow strict-local
  */
 
+const firebase = require("firebase");
+const { navigate } = require("gatsby");
+
 const React = require("react");
 const GenericButton = require("../components/GenericButton.react");
+require("./index");
 
 type Props = {};
 
@@ -16,7 +20,20 @@ class SignInView extends React.Component<Props, State> {
     fberror: false
   };
 
-  handleSubmit(evt) {}
+  handleSubmit(evt) {
+    evt.preventDefault();
+    firebase.auth().signOut();
+        firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
+            .catch(err => this.setState({ errorMsg: err.message }))
+          firebase.auth().onAuthStateChanged(user => {
+            console.log(user)
+            if (user) {
+              navigate('/profile')
+            }
+        });
+    //navigate('/profile')
+  
+  }
 
   render() {
     return (
