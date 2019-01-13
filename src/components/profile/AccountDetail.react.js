@@ -48,9 +48,6 @@ class AccountDetail extends React.Component<Props> {
               <p className="text-center">{this.props.year}</p>
             </div>
           </div>
-          <div style={{ marginTop: 30 }} className="text-center">
-            <GenericButton width={200}>Add Organization</GenericButton>
-          </div>
         </div>
       </div>
     );

@@ -25,7 +25,9 @@ class Profile extends React.Component<Props> {
             User Profile
           </div>
           <OrganizationContainer />
+          <div style={{ height: 80 }} />
           <AccountDetailContainer />
+          <div style={{ height: 80 }} />
         </div>
       </div>
     );

@@ -4,19 +4,35 @@
 
 const React = require("react");
 const GenericButton = require("../components/GenericButton.react");
+const {Dropdown, DropdownMenu, DropdownItem, DropdownToggle} = require("reactstrap");
 
 type Props = {};
 
-type State = { name: string, email: string, year: string, password: string, fberror: boolean };
+type State = { name: string, email: string, dropdownOpen: boolean, password: string, fberror: boolean };
 
 class SignInView extends React.Component<Props, State> {
   state = {
     name: "",
     email: "",
-    year: "",
+    dropdownOpen: false,
+    value: "",
     password: "",
     fberror: false
   };
+  toggle = this.toggle.bind(this);
+  select = this.select.bind(this);
+
+  toggle(): void {
+      this.setState(prevState => ({
+          dropdownOpen: !prevState.dropdownOpen
+      }));
+  }
+
+  select(event) {
+      this.setState({
+          value: event.target.innerText
+      });
+  }
 
   handleSubmit(evt) {}
 
@@ -57,18 +73,17 @@ class SignInView extends React.Component<Props, State> {
                   onInput={evt => this.setState({ email: evt.target.value })}
                 />
               </div>
-              <div className="form-group">
-                <label htmlFor="year">Year in School</label>
-                <input
-                  type="year"
-                  id="year"
-                  className="form-control"
-                  placeholder="your year in school"
-                  value={this.state.year}
-                  style={{ maxWidth: 600 }}
-                  onInput={evt => this.setState({ year: evt.target.value })}
-                />
-              </div>
+              <label htmlFor="year">Year in School</label>
+              <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
+              <DropdownToggle caret>{this.state.value}
+              </DropdownToggle>
+              <DropdownMenu>
+                  <DropdownItem onClick={this.select}>Freshman</DropdownItem>
+                  <DropdownItem onClick={this.select}>Sophomore</DropdownItem>
+                  <DropdownItem onClick={this.select}>Junior</DropdownItem>
+                  <DropdownItem onClick={this.select}>Senior</DropdownItem>
+            </DropdownMenu> 
+            </Dropdown>
               <div className="form-group">
                 <label htmlFor="password">Password</label>
                 <input
