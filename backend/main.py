@@ -11,10 +11,21 @@ def hello_world(request):
         Response object using
         `make_response <http://flask.pocoo.org/docs/1.0/api/#flask.Flask.make_response>`.
     """
+    if request.method == 'OPTION':
+        headers = {
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'GET, POST',
+            'Access-Control-Allow-Headers': 'Content-Type',
+            'Access-Control-Max-Age': '3600'
+        }
+        return ('', 204, headers)
     conn = psycopg2.connect(host='/cloudsql/hackwa-membership:us-west1:myinstance', dbname='postgres', user='postgres',  password='password')
     cur = conn.cursor()
     path = request.path.strip("/")
     args = request.args.to_dict()
+    headers = {
+        'Access-Control-Allow-Origin': '*'
+    }
     if request.method == 'POST':
         if path == 'account':
             if 'sid' in args and 'name' in args and 'year' in args and 'email' in args:
@@ -27,11 +38,11 @@ def hello_world(request):
                     conn.commit()
                     cur.close()
                     conn.close()
-                    return str({'success': 1})
+                    return (str({'success': 1}), 200, headers)
                 except Exception as e:
                     cur.close()
                     conn.close()
-                    return str({'success': psycopg2.errorcodes.lookup(e.pgcode)})
+                    return (str({'success': psycopg2.errorcodes.lookup(e.pgcode)}), 500, headers)
         elif path == 'add_member':
             if 'sid' in args and 'oid' in args:
                 try:
@@ -39,11 +50,11 @@ def hello_world(request):
                     conn.commit()
                     cur.close()
                     conn.close()
-                    return str({'success': 1})
+                    return (str({'success': 1}), 200, headers)
                 except Exception as e:
                     cur.close()
                     conn.close()
-                    return str({'success': psycopg2.errorcodes.lookup(e.pgcode)})
+                    return ({'success': psycopg2.errorcodes.lookup(e.pgcode)}, 500, headers)
     elif request.method == 'GET':
         if path == 'memberships':
             if 'sid' in args:
@@ -55,11 +66,11 @@ def hello_world(request):
                         results.append(dict(zip(col, row)))
                     cur.close()
                     conn.close()
-                    return str({'success': 1, 'result': results})
+                    return (str({'success': 1, 'result': results}), 200, headers)
                 except Exception as e:
                     cur.close()
                     conn.close()
-                    return str({'success': psycopg2.errorcodes.lookup(e.pgcode)})
+                    return (str({'success': psycopg2.errorcodes.lookup(e.pgcode)}), 500, headers)
         elif path == 'avail_mem':
             if 'sid' in args:
                 try:
@@ -70,11 +81,11 @@ def hello_world(request):
                         results.append(dict(zip(col, row)))
                     cur.close()
                     conn.close()
-                    return str({'success': 1, 'result': results})
+                    return (str({'success': 1, 'result': results}), 200, headers)
                 except Exception as e:
                     cur.close()
                     conn.close()
-                    return str({'success': psycopg2.errorcodes.lookup(e.pgcode)})
+                    return (str({'success': psycopg2.errorcodes.lookup(e.pgcode)}), 500, headers)
         elif path == 'detail':
             if 'sid' in args:
                 try:
@@ -83,11 +94,11 @@ def hello_world(request):
                     result = dict(zip(col, cur.fetchall()[0]))
                     cur.close()
                     conn.close()
-                    return str({'success': 1, 'result': result})
+                    return (str({'success': 1, 'result': result}), 200, headers)
                 except Exception as e:
                     cur.close()
                     conn.close()
-                    return str({'success': psycopg2.errorcodes.lookup(e.pgcode)})
+                    return (str({'success': psycopg2.errorcodes.lookup(e.pgcode)}), 500, headers)
     cur.close()
     conn.close()
-    return str({'success': 0})
+    return (str({'success': 0}), 500, headers)

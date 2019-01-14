@@ -3,14 +3,26 @@
  */
 const firebase = require("firebase");
 const { navigate } = require("gatsby");
+const axios = require("axios");
 
 const React = require("react");
 const GenericButton = require("../components/GenericButton.react");
-const {Dropdown, DropdownMenu, DropdownItem, DropdownToggle} = require("reactstrap");
+const {
+  Dropdown,
+  DropdownMenu,
+  DropdownItem,
+  DropdownToggle
+} = require("reactstrap");
 
 type Props = {};
 
-type State = { name: string, email: string, dropdownOpen: boolean, password: string, fberror: boolean };
+type State = {
+  name: string,
+  email: string,
+  dropdownOpen: boolean,
+  password: string,
+  fberror: boolean
+};
 
 class SignInView extends React.Component<Props, State> {
   state = {
@@ -25,35 +37,61 @@ class SignInView extends React.Component<Props, State> {
   select = this.select.bind(this);
 
   toggle(): void {
-      this.setState(prevState => ({
-          dropdownOpen: !prevState.dropdownOpen
-      }));
+    this.setState(prevState => ({
+      dropdownOpen: !prevState.dropdownOpen
+    }));
   }
 
   select(event) {
-      this.setState({
-          value: event.target.innerText
-      });
+    this.setState({
+      value: event.target.innerText
+    });
   }
 
   handleSubmit(evt) {
     evt.preventDefault();
-        firebase.auth().signOut();
-        if (this.state.name === ""){
-            this.setState({errorMessage: "Please enter a display name"});
-        } else {
-            this.setState({errorMessage: undefined});
-            firebase.auth().createUserWithEmailAndPassword(this.state.email,this.state.password)
-                .then(user => user.updateProfile({
-                    displayName: this.state.name, year: this.state.value}))
-                .catch(err => this.setState({errorMessage: err.message}))
-                firebase.auth().onAuthStateChanged(user => {
-                    if(user) {
-                      navigate('/profile')
-                                     
-                    }
-                });
+    firebase.auth().signOut();
+    if (this.state.name === "") {
+      this.setState({ errorMessage: "Please enter a display name" });
+    } else {
+      this.setState({ errorMessage: undefined });
+      firebase
+        .auth()
+        .createUserWithEmailAndPassword(this.state.email, this.state.password)
+        .then(user =>
+          user.updateProfile({
+            displayName: this.state.name,
+            year: this.state.value
+          })
+        )
+        .catch(err => this.setState({ errorMessage: err.message }));
+      firebase.auth().onAuthStateChanged(user => {
+        if (user) {
+          console.log({
+            sid: user.uid,
+            name: this.state.name,
+            year: this.state.value,
+            email: this.state.email
+          });
+          axios
+            .post(
+              "https://us-central1-hackwa-membership.cloudfunctions.net/function-1/account",
+              {
+                sid: user.uid,
+                name: this.state.name,
+                year: this.state.value,
+                email: this.state.email
+              }
+            )
+            .then(function(response) {
+              navigate("/profile");
+            })
+            .catch(function(error) {
+              console.log(error);
+            });
         }
+      });
+    }
   }
 
   render() {
@@ -69,7 +107,7 @@ class SignInView extends React.Component<Props, State> {
         <main>
           <div className="container">
             <form className="center" onSubmit={evt => this.handleSubmit(evt)}>
-            <div className="form-group">
+              <div className="form-group">
                 <label htmlFor="name">Name</label>
                 <input
                   type="name"
@@ -95,19 +133,14 @@ class SignInView extends React.Component<Props, State> {
               </div>
               <label htmlFor="year">Year in School</label>
               <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
-              <DropdownToggle caret>{this.state.value}
-              </DropdownToggle>
-              <DropdownMenu>
+                <DropdownToggle caret>{this.state.value}</DropdownToggle>
+                <DropdownMenu>
                   <DropdownItem onClick={this.select}>Freshman</DropdownItem>
                   <DropdownItem onClick={this.select}>Sophomore</DropdownItem>
                   <DropdownItem onClick={this.select}>Junior</DropdownItem>
                   <DropdownItem onClick={this.select}>Senior</DropdownItem>
-                  
-            </DropdownMenu> 
-            </Dropdown>
-
-
-
+                </DropdownMenu>
+              </Dropdown>
 
               <div className="form-group">
                 <label htmlFor="password">Password</label>
